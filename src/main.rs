@@ -7,6 +7,21 @@ use getopts::{Matches, Fail, Options};
 
 pub struct Day01 { file_name: String }
 
+impl Day01 {
+    fn get_counts(&self) -> Result<Vec<i32>, String> {
+        let lines: Vec<String> = match self.read_file_as_lines() {
+            Ok(file) => file,
+            Err(e) => return Err(e.to_string()),
+        };
+
+        let counts: Vec<i32> = lines.split(|it| it == "")
+            .map(|it| {
+                it.iter().map(|it| it.parse::<i32>().unwrap()).sum::<i32>()
+            }).collect();
+        Ok(counts)
+    }
+}
+
 impl Day for Day01 {
     fn new(file_name: String) -> Self { Day01 { file_name } }
 
@@ -15,47 +30,23 @@ impl Day for Day01 {
     }
 
     fn part1(&self) -> Result<String, String> {
-        let lines = match self.read_file_as_lines() {
-            Ok(lines) => lines,
-            Err(e) => return Err(e.to_string()),
+        let counts = match self.get_counts() {
+            Ok(ns) => ns,
+            Err(e) => return Err(e),
         };
-        let mut max: i32 = 0;
-        let mut current: i32 = 0;
-
-        for line in lines {
-            if line.is_empty() && max < current {
-                max = current;
-                current = 0;
-            } else if line.is_empty() {
-                current = 0;
-            } else {
-                current += line.parse::<i32>().unwrap()
-            }
+        match counts.iter().max() {
+            None => Err("There were no values in the list!".to_string()),
+            Some(n) => Ok(format!("Highest value is {}", n)),
         }
-
-        Ok(format!("Highest value is {}", max))
     }
 
     fn part2(&self) -> Result<String, String> {
-        let lines = match self.read_file_as_lines() {
-            Ok(lines) => lines,
-            Err(e) => return Err(e.to_string()),
+        let mut counts = match self.get_counts() {
+            Ok(ns) => ns,
+            Err(e) => return Err(e),
         };
-        let mut all: Vec<i32> = vec![];
-        let mut current = 0;
-
-        for line in lines {
-            if line.is_empty() {
-                all.push(current);
-                current = 0;
-            } else {
-                current += line.parse::<i32>().unwrap();
-            }
-        }
-        all.push(current);
-        all.sort();
-        all.reverse();
-        let sum: i32 = all[0..3].into_iter().sum();
+        counts.sort_by(|a, b| b.cmp(a));
+        let sum: i32 = counts.iter().take(3).sum();
         Ok(format!("Sum of top three highest is {}", sum))
     }
 }
