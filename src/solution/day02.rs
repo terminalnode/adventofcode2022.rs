@@ -6,9 +6,9 @@ use Choice::*;
 // lost = 0, draw = 3, win = 6
 pub struct Day02 { file_name: String }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Clone, Copy)]
 enum Choice {
-    Rock,
+    Rock = 1,
     Paper,
     Scissors,
 }
@@ -24,14 +24,6 @@ impl Choice {
             'B' => Ok(Paper),
             'C' => Ok(Scissors),
             _ => Err(format!("Failed to convert '{}' to rock/paper/scissors", ch)),
-        }
-    }
-
-    fn to_score(&self) -> i32 {
-        match &self {
-            Rock => 1,
-            Paper => 2,
-            Scissors => 3,
         }
     }
 
@@ -68,7 +60,7 @@ fn get_score(opponent: Choice, you: Choice) -> i32 {
         }
     };
 
-    result_points + you.to_score()
+    result_points + (you as i32)
 }
 
 impl Day02 {
@@ -108,9 +100,9 @@ impl Solution for Day02 {
             let opponent = Choice::new(chars.next().unwrap()).unwrap();
 
             match chars.next_back().unwrap() {
-                'X' => 0 + opponent.get_loser().to_score(),
-                'Y' => 3 + opponent.to_score(),
-                'Z' => 6 + opponent.get_winner().to_score(),
+                'X' => 0 + opponent.get_loser() as i32,
+                'Y' => 3 + opponent as i32,
+                'Z' => 6 + opponent.get_winner() as i32,
                 _ => 0,
             }
         }).sum();
