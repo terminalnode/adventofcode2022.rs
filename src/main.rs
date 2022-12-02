@@ -1,11 +1,11 @@
 mod solution;
 
 use std::env;
-use std::io::{BufRead, BufReader, Error};
 use std::process::exit;
 use ansi_term::Color::Red;
 use getopts::{Matches, Fail, Options};
 use solution::{Day01, Solution};
+use crate::solution::Day02;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -58,6 +58,7 @@ fn run_day(
 ) -> String {
     let out = match day {
         1 => Day01::new(file_name).run(part.clone()),
+        2 => Day02::new(file_name).run(part.clone()),
         _ => Err(format!("There is no day {}", day)),
     };
 
