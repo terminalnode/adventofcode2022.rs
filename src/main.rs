@@ -1,11 +1,14 @@
-mod solution;
+extern crate core;
 
 use std::env;
 use std::process::exit;
+
 use ansi_term::Color::Red;
-use getopts::{Matches, Fail, Options};
-use solution::{Day01, Solution};
-use crate::solution::Day02;
+use getopts::{Fail, Matches, Options};
+
+use solution::{Day01, Day02, Day03, Solution};
+
+mod solution;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -59,6 +62,7 @@ fn run_day(
     let out = match day {
         1 => Day01::new(file_name).run(part.clone()),
         2 => Day02::new(file_name).run(part.clone()),
+        3 => Day03::new(file_name).run(part.clone()),
         _ => Err(format!("There is no day {}", day)),
     };
 
