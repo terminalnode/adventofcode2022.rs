@@ -23,7 +23,7 @@ impl Day03 {
             it.chars()
                 .map(map_char_to_prio)
                 .collect::<Result<Vec<i32>, String>>()
-        }).collect::<Result<Vec<Vec<i32>>, String>>()
+        }).collect()
     }
 }
 
