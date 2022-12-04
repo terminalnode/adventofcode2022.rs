@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use crate::solution::solution::Solution;
+use crate::solution::Solution;
 
 pub struct Day03 { file_name: String }
 

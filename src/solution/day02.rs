@@ -1,4 +1,4 @@
-use crate::solution::solution::Solution;
+use crate::solution::Solution;
 use Choice::*;
 
 // A, B, C => rock, paper, scissors

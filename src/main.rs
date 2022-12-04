@@ -6,7 +6,13 @@ use std::process::exit;
 use ansi_term::Color::Red;
 use getopts::{Fail, Matches, Options};
 
-use solution::{Day01, Day02, Day03, Solution};
+use solution::{
+    Day01,
+    Day02,
+    Day03,
+    Day04,
+    Solution,
+};
 
 mod solution;
 
@@ -63,6 +69,7 @@ fn run_day(
         1 => Day01::new(file_name).run(part.clone()),
         2 => Day02::new(file_name).run(part.clone()),
         3 => Day03::new(file_name).run(part.clone()),
+        4 => Day04::new(file_name).run(part.clone()),
         _ => Err(format!("There is no day {}", day)),
     };
 

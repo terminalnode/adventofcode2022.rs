@@ -1,4 +1,4 @@
-use crate::solution::solution::Solution;
+use crate::solution::Solution;
 
 pub struct Day01 { file_name: String }
 
