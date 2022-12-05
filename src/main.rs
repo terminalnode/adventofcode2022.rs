@@ -11,6 +11,7 @@ use solution::{
     Day02,
     Day03,
     Day04,
+    Day05,
     Solution,
 };
 
@@ -70,6 +71,7 @@ fn run_day(
         2 => Day02::new(file_name).run(part.clone()),
         3 => Day03::new(file_name).run(part.clone()),
         4 => Day04::new(file_name).run(part.clone()),
+        5 => Day05::new(file_name).run(part.clone()),
         _ => Err(format!("There is no day {}", day)),
     };
 

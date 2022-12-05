@@ -1,3 +1,4 @@
+use std::fs;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Error};
 
@@ -26,6 +27,13 @@ pub trait Solution {
         match File::open(self.get_file_name()) {
             Ok(f) => Ok(BufReader::new(f)),
             Err(e) => Err(e),
+        }
+    }
+
+    fn read_file_as_string(&self) -> Result<String, String> {
+        match fs::read_to_string(self.get_file_name()) {
+            Ok(s) => Ok(s),
+            Err(e) => Err(e.to_string()),
         }
     }
 
