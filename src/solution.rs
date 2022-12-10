@@ -7,6 +7,9 @@ mod day04;
 mod day05;
 mod day06;
 mod day07;
+// mod day08;
+// mod day09;
+mod day10;
 
 // Expose modules as a single solution module
 pub use solution::Solution;
@@ -17,3 +20,6 @@ pub use day04::Day04;
 pub use day05::Day05;
 pub use day06::Day06;
 pub use day07::Day07;
+// pub use day08::Day08;
+// pub use day09::Day09;
+pub use day10::Day10;
