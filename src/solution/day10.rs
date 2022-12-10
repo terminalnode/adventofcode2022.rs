@@ -36,11 +36,7 @@ impl Solution for Day10 {
 
     fn part1(&self) -> Result<String, String> {
         let instructions: Vec<Instruction> = self.parse()?;
-        // ADDX takes two cycles, after cycle after that the value is altered
-        // NOOP takes one cycle and has no effect
-
-        let _cycles = vec![60, 100, 140, 180, 220];
-        let mut cycles = _cycles.iter();
+        let mut cycles = vec![60, 100, 140, 180, 220].into_iter();
 
         let mut next_cycle: i32 = 20;
         let mut current_cycle: i32 = 0;
@@ -53,7 +49,6 @@ impl Solution for Day10 {
             };
 
             if &current_cycle < &next_cycle && &current_cycle+&shift >= next_cycle {
-                println!("Cycle {next_cycle}, X={x} | {next_cycle} * {x} = {}", next_cycle*x);
                 result += &next_cycle * &x;
                 match cycles.next() {
                     None => break,
@@ -69,8 +64,8 @@ impl Solution for Day10 {
 
     fn part2(&self) -> Result<String, String> {
         let instructions: Vec<Instruction> = self.parse()?;
-        let mut signals: Vec<i32> = Vec::with_capacity(240);
 
+        let mut signals: Vec<i32> = Vec::with_capacity(240);
         let mut x: i32 = 1;
         {
             let mut current_cycle: i32 = 0;
@@ -80,11 +75,11 @@ impl Solution for Day10 {
                     ADDX(n) => (n + 0, 2),
                 };
 
-                (0..&shift + 0).for_each(|shift| {
-                    let pos: usize = (&current_cycle + shift) as usize;
+                (0..shift).for_each(|shift| {
+                    let pos: usize = (current_cycle + shift) as usize;
                     signals.insert(pos, &x + 0);
                 });
-                current_cycle += &shift + 0;
+                current_cycle += shift;
                 x += value;
             }
         }
@@ -92,11 +87,9 @@ impl Solution for Day10 {
         let monitor = (0..240)
             .map(|i| {
                 let im40 = &i % 40;
-                let value = match &signals[i] + 0 {
-                    0 => 1 as usize,
-                    n => n as usize,
-                };
-                if im40 >= (&value - 1) && im40 <= (&value + 1) { '#' } else { '.' }
+                let min_value = (&signals[&i+0] - 1) as usize;
+                let max_value = (&signals[&i+0] + 1) as usize;
+                if im40 >= min_value && im40 <= max_value { '#' } else { '.' }
             }).collect::<Vec<char>>().chunks(40)
             .into_iter()
             .map(|x| { x.iter().join("") })
