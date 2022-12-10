@@ -14,11 +14,7 @@ fn map_char_to_prio(c: char) -> Result<i32, String> {
 
 impl Day03 {
     fn get_items_as_priorities(&self) -> Result<Vec<Vec<i32>>, String> {
-        let lines = match self.read_file_as_lines() {
-            Ok(ss) => ss,
-            Err(e) => return Err(format!("Failed to read lines: {}", e)),
-        };
-
+        let lines = self.read_file_as_lines()?;
         lines.iter().map(|it| {
             it.chars()
                 .map(map_char_to_prio)

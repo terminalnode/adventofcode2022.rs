@@ -74,10 +74,7 @@ impl Solution for Day02 {
     }
 
     fn part1(&self) -> Result<String, String> {
-        let lines: Vec<String> = match self.read_file_as_lines() {
-            Ok(ss) => ss,
-            Err(e) => return Err(e.to_string()),
-        };
+        let lines: Vec<String> = self.read_file_as_lines()?;
 
         let score: i32 = lines.iter().map(|line| {
             let mut chars = line.chars();
@@ -90,11 +87,7 @@ impl Solution for Day02 {
     }
 
     fn part2(&self) -> Result<String, String> {
-        let lines: Vec<String> = match self.read_file_as_lines() {
-            Ok(ss) => ss,
-            Err(e) => return Err(e.to_string()),
-        };
-
+        let lines: Vec<String> = self.read_file_as_lines()?;
         let score: i32 = lines.iter().map(|line| {
             let mut chars = line.chars();
             let opponent = Choice::new(chars.next().unwrap()).unwrap();

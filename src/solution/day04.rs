@@ -7,11 +7,7 @@ type ElfPair = (Range, Range);
 
 impl Day04 {
     fn parse_list(&self) -> Result<Vec<ElfPair>, String> {
-        let ls: Vec<String> = match self.read_file_as_lines() {
-            Ok(ls) => ls,
-            Err(e) => return Err(e.to_string()),
-        };
-
+        let ls: Vec<String> = self.read_file_as_lines()?;
         let list = ls.iter().map(|l| {
             let s: Vec<i32> = l.split(|c| c == ',' || c == '-')
                 .map(|s| s.parse::<i32>().unwrap())

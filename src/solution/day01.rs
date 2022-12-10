@@ -4,11 +4,7 @@ pub struct Day01 { file_name: String }
 
 impl Day01 {
     pub fn get_counts(&self) -> Result<Vec<i32>, String> {
-        let lines: Vec<String> = match self.read_file_as_lines() {
-            Ok(file) => file,
-            Err(e) => return Err(e.to_string()),
-        };
-
+        let lines: Vec<String> = self.read_file_as_lines()?;
         let counts: Vec<i32> = lines.split(|it| it == "")
             .map(|it| {
                 it.iter().map(|it| it.parse::<i32>().unwrap()).sum::<i32>()

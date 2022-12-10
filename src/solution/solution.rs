@@ -1,6 +1,6 @@
 use std::fs;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Error};
+use std::io::{BufReader, Error};
 
 pub trait Solution {
     fn new(file_name: String) -> Self;
@@ -37,7 +37,10 @@ pub trait Solution {
         }
     }
 
-    fn read_file_as_lines(&self) -> Result<Vec<String>, Error> {
-        self.read_file()?.lines().collect()
+    fn read_file_as_lines(&self) -> Result<Vec<String>, String> {
+        match fs::read_to_string(self.get_file_name()) {
+            Ok(s) => Ok(s.lines().map(|s| format!("{s}")).collect()),
+            Err(e) => Err(e.to_string()),
+        }
     }
 }
