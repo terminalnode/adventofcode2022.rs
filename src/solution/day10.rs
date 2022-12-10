@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use crate::solution::day10::Instruction::{ADDX, NOOP};
 use crate::solution::Solution;
 
@@ -64,5 +65,42 @@ impl Solution for Day10 {
         }
 
         Ok(format!("Result {result}"))
+    }
+
+    fn part2(&self) -> Result<String, String> {
+        let instructions: Vec<Instruction> = self.parse()?;
+        let mut signals: Vec<i32> = Vec::with_capacity(240);
+
+        let mut x: i32 = 1;
+        {
+            let mut current_cycle: i32 = 0;
+            for instruction in instructions {
+                let (value, shift) = match instruction {
+                    NOOP => (0, 1),
+                    ADDX(n) => (n + 0, 2),
+                };
+
+                (0..&shift + 0).for_each(|shift| {
+                    let pos: usize = (&current_cycle + shift) as usize;
+                    signals.insert(pos, &x + 0);
+                });
+                current_cycle += &shift + 0;
+                x += value;
+            }
+        }
+
+        let monitor = (0..240)
+            .map(|i| {
+                let im40 = &i % 40;
+                let value = match &signals[i] + 0 {
+                    0 => 1 as usize,
+                    n => n as usize,
+                };
+                if im40 >= (&value - 1) && im40 <= (&value + 1) { '#' } else { '.' }
+            }).collect::<Vec<char>>().chunks(40)
+            .into_iter()
+            .map(|x| { x.iter().join("") })
+            .join("\n");
+        Ok(format!("\n{}", monitor))
     }
 }
