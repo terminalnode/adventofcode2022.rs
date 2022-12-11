@@ -19,7 +19,7 @@ enum Test {
 
 #[derive(Debug)]
 struct Monkey {
-    items: Vec<i64>,
+    items: Vec<u64>,
     operation: Operation,
     test: Test,
     on_true: usize,
@@ -28,31 +28,34 @@ struct Monkey {
 }
 
 impl Monkey {
-    fn do_round(&mut self) -> Vec<(usize, i64)> {
+    fn do_round(&mut self, denominator: i32, reduced_worry: bool) -> Vec<(usize, u64)> {
         let tosses = self.items.iter().map(|item| {
             // Inspect
             //  - Run operation to modify worry level
             //  - Divide by 3 (rounded down to nearest integer)
+            // Then we run modulus with common denominator to keep numbers down
             self.inspects += 1;
-            let worry = match self.operation {
+            let mut worry = match self.operation {
                 Square => item * item,
-                Multiply(n) => item * (n as i64),
-                Add(n) => item + (n as i64)
-            } / 3;
+                Multiply(n) => item * (n as u64),
+                Add(n) => item + (n as u64)
+            };
+            while worry > (denominator as u64)*2 { worry -= denominator as u64 }
+            if reduced_worry { worry /= 3 }
 
             // Run test and decide where to throw
             let test = match self.test {
-                Divisible(n) => worry % (n as i64) == 0,
+                Divisible(n) => worry % (n as u64) == 0,
             };
             let target = if test { self.on_true } else { self.on_false };
             (target, worry)
-        }).collect::<Vec<(usize, i64)>>();
+        }).collect::<Vec<(usize, u64)>>();
 
         self.items.clear();
         tosses
     }
 
-    fn hand_item(&mut self, worry: i64) {
+    fn hand_item(&mut self, worry: u64) {
         self.items.push(worry);
     }
 
@@ -72,11 +75,11 @@ impl Monkey {
         Ok(monkey)
     }
 
-    fn parse_items(input: &str) -> Result<Vec<i64>, String> {
+    fn parse_items(input: &str) -> Result<Vec<u64>, String> {
         input[18..].split(", ")
             .map(|it| {
-                it.parse::<i64>().or_else(|e| Err(format!("Failed to parse item {it}: {e}")))
-            }).collect::<Result<Vec<i64>, String>>()
+                it.parse::<u64>().or_else(|e| Err(format!("Failed to parse item {it}: {e}")))
+            }).collect::<Result<Vec<u64>, String>>()
     }
 
     fn parse_operation(input: &str) -> Result<Operation, String> {
@@ -136,13 +139,16 @@ impl Solution for Day11 {
 
     fn part1(&self) -> Result<String, String> {
         let mut monkeys = self.parse()?;
+        let denominator: i32 = monkeys.iter().map(|m| {
+            match m.test { Divisible(n) => n }
+        }).product();
 
         monkeys.iter().for_each(|x| println!("{:?}", x));
         for round in 0..20 {
             println!("Round {round}");
             for i in 0..monkeys.len() {
                 let monkey = &mut monkeys[i];
-                let tosses = monkey.do_round();
+                let tosses = monkey.do_round(denominator, true);
 
                 for (ti, worry) in tosses {
                     let target = &mut monkeys[ti];
@@ -151,6 +157,33 @@ impl Solution for Day11 {
             }
             monkeys.iter().for_each(|x| println!("{:?}", x));
             println!();
+        }
+
+        let mut inspects = monkeys.iter()
+            .map(|m| m.inspects as i64)
+            .collect::<Vec<i64>>();
+        inspects.sort();
+        let product: i64 = inspects.iter().rev().take(2).product();
+        Ok(format!("Monkey business: {product}"))
+    }
+
+    fn part2(&self) -> Result<String, String> {
+        let mut monkeys = self.parse()?;
+        let denominator: i32 = monkeys.iter().map(|m| {
+            match m.test { Divisible(n) => n }
+        }).product();
+
+        for round in 0..10_000 {
+            println!("Round {round}");
+            for i in 0..monkeys.len() {
+                let monkey = &mut monkeys[i];
+                let tosses = monkey.do_round(denominator, false);
+
+                for (ti, worry) in tosses {
+                    let target = &mut monkeys[ti];
+                    target.hand_item(worry);
+                }
+            }
         }
 
         let mut inspects = monkeys.iter()
