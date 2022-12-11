@@ -7,9 +7,6 @@ pub struct Day08 { file_name: String }
 
 type Matrix<T> = Vec<Vec<T>>;
 
-fn mark_wrong(m: &mut Matrix<String>, y: u32, x: u32) {
-}
-
 impl Day08 {
     fn parse(&self) -> Result<Matrix<u32>, String> {
         self.read_file_as_lines()?.iter()
@@ -37,7 +34,6 @@ impl Solution for Day08 {
 
     fn get_file_name(&self) -> String { return self.file_name.clone() }
 
-    //noinspection ALL
     fn part1(&self) -> Result<String, String> {
         // Note: X/Y axis are reversed. matrix[y_pos][x_pos] is where y = y_pos and x = x_pos
         let matrix = self.parse()?;
@@ -97,5 +93,58 @@ impl Solution for Day08 {
 
         let forest = result.iter().map(|it| it.join("")).join("\n");
         Ok(format!("\n{forest}\n{visible} trees visible"))
+    }
+
+    fn part2(&self) -> Result<String, String> {
+        let matrix = self.parse()?;
+        let y_len = matrix.len();
+        let x_len = matrix[0].len();
+
+        let mut result = matrix.iter().map(|row| {
+            row.iter().map(|n| (n.clone(), 0)).collect::<Vec<(u32, u32)>>()
+        }).collect::<Matrix<(u32, u32)>>();
+
+        for y in 1..y_len-1 {
+            for x in 1..x_len-1 {
+                let this = matrix[y][x];
+
+                let mut left = 0;
+                for tx in (0..x).rev() {
+                    left += 1;
+                    let that = matrix[y][tx];
+                    if that >= this { break }
+                }
+
+                let mut right = 0;
+                for tx in x+1..x_len {
+                    right += 1;
+                    let that = matrix[y][tx];
+                    if that >= this { break }
+                }
+
+                let mut up = 0;
+                for ty in (0..y).rev() {
+                    up += 1;
+                    let that = matrix[ty][x];
+                    if that >= this { break }
+                }
+
+                let mut down = 0;
+                for ty in y+1..y_len {
+                    down += 1;
+                    let that = matrix[ty][x];
+                    if that >= this { break }
+                }
+
+                result[&y+0][&x+0] = (this, left * right * up * down);
+            }
+        }
+
+        match result.iter().flat_map(|it| {
+            it.iter().map(|(_, y)| y+0).collect::<Vec<u32>>()
+        }).collect::<Vec<u32>>().iter().max() {
+            None => Err("Failed to get result".to_string()),
+            Some(n) => Ok(format!("Max scenic score: {n}")),
+        }
     }
 }
