@@ -40,7 +40,7 @@ impl Monkey {
                 Multiply(n) => item * (n as u64),
                 Add(n) => item + (n as u64)
             };
-            while worry > (denominator as u64)*2 { worry -= denominator as u64 }
+            if worry > (denominator as u64)*2 { worry = (worry % denominator as u64) + denominator as u64 }
             if reduced_worry { worry /= 3 }
 
             // Run test and decide where to throw
