@@ -15,7 +15,6 @@ impl Day01 {
 
 impl Solution for Day01 {
     fn new(file_name: String) -> Self { Day01 { file_name } }
-
     fn get_file_name(&self) -> String {
         self.file_name.clone()
     }

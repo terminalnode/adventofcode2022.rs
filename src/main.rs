@@ -7,16 +7,10 @@ use ansi_term::Color::Red;
 use getopts::{Fail, Matches, Options};
 
 use solution::{
-    Day01,
-    Day02,
-    Day03,
-    Day04,
-    Day05,
-    Day06,
-    Day07,
-    Day08,
-    Day10,
-    Solution,
+    Day01, Day02, Day03, Day04, Day05, Day06, Day07, Day08,
+    Day09, Day10, Day11, Day12, Day13, Day14, Day15, Day16,
+    Day17, Day18, Day19, Day20, Day21, Day22, Day23, Day24,
+    Day25, Solution,
 };
 
 mod solution;
@@ -71,16 +65,31 @@ fn run_day(
     file_name: String,
 ) -> String {
     let out = match day {
-        1 => Day01::new(file_name).run(part.clone()),
-        2 => Day02::new(file_name).run(part.clone()),
-        3 => Day03::new(file_name).run(part.clone()),
-        4 => Day04::new(file_name).run(part.clone()),
-        5 => Day05::new(file_name).run(part.clone()),
-        6 => Day06::new(file_name).run(part.clone()),
-        7 => Day07::new(file_name).run(part.clone()),
-        8 => Day08::new(file_name).run(part.clone()),
-        // 9 => Day09::new(file_name).run(part.clone()),
+        01 => Day01::new(file_name).run(part.clone()),
+        02 => Day02::new(file_name).run(part.clone()),
+        03 => Day03::new(file_name).run(part.clone()),
+        04 => Day04::new(file_name).run(part.clone()),
+        05 => Day05::new(file_name).run(part.clone()),
+        06 => Day06::new(file_name).run(part.clone()),
+        07 => Day07::new(file_name).run(part.clone()),
+        08 => Day08::new(file_name).run(part.clone()),
+        09 => Day09::new(file_name).run(part.clone()),
         10 => Day10::new(file_name).run(part.clone()),
+        11 => Day11::new(file_name).run(part.clone()),
+        12 => Day12::new(file_name).run(part.clone()),
+        13 => Day13::new(file_name).run(part.clone()),
+        14 => Day14::new(file_name).run(part.clone()),
+        15 => Day15::new(file_name).run(part.clone()),
+        16 => Day16::new(file_name).run(part.clone()),
+        17 => Day17::new(file_name).run(part.clone()),
+        18 => Day18::new(file_name).run(part.clone()),
+        19 => Day19::new(file_name).run(part.clone()),
+        20 => Day20::new(file_name).run(part.clone()),
+        21 => Day21::new(file_name).run(part.clone()),
+        22 => Day22::new(file_name).run(part.clone()),
+        23 => Day23::new(file_name).run(part.clone()),
+        24 => Day24::new(file_name).run(part.clone()),
+        25 => Day25::new(file_name).run(part.clone()),
         _ => Err(format!("There is no day {}", day)),
     };
 

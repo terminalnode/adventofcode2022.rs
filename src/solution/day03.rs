@@ -25,10 +25,7 @@ impl Day03 {
 
 impl Solution for Day03 {
     fn new(file_name: String) -> Self { Day03 { file_name } }
-
-    fn get_file_name(&self) -> String {
-        self.file_name.clone()
-    }
+    fn get_file_name(&self) -> String { self.file_name.clone() }
 
     fn part1(&self) -> Result<String, String> {
         let items_as_priorities = match self.get_items_as_priorities() {

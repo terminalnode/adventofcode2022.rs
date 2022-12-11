@@ -68,10 +68,7 @@ impl Day02 {
 
 impl Solution for Day02 {
     fn new(file_name: String) -> Self { Day02 { file_name } }
-
-    fn get_file_name(&self) -> String {
-        self.file_name.clone()
-    }
+    fn get_file_name(&self) -> String { self.file_name.clone() }
 
     fn part1(&self) -> Result<String, String> {
         let lines: Vec<String> = self.read_file_as_lines()?;

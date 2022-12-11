@@ -22,14 +22,7 @@ impl Day06 {
 
 impl Solution for Day06 {
     fn new(file_name: String) -> Self { Day06 { file_name } }
-
     fn get_file_name(&self) -> String { return self.file_name.clone() }
-
-    fn part1(&self) -> Result<String, String> {
-        self.solve(4)
-    }
-
-    fn part2(&self) -> Result<String, String> {
-        self.solve(14)
-    }
+    fn part1(&self) -> Result<String, String> { self.solve(4) }
+    fn part2(&self) -> Result<String, String> { self.solve(14) }
 }
