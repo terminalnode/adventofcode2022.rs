@@ -1,4 +1,5 @@
 use itertools::Itertools;
+
 use crate::solution::day10::Instruction::{ADDX, NOOP};
 use crate::solution::Solution;
 

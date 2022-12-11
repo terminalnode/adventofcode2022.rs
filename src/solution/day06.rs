@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+
 use crate::solution::Solution;
 
 pub struct Day06 { file_name: String }

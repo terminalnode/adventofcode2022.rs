@@ -1,6 +1,8 @@
 use std::ops::Not;
-use ansi_term::Colour::{Red, Green};
+
+use ansi_term::Colour::{Green, Red};
 use itertools::Itertools;
+
 use crate::solution::Solution;
 
 pub struct Day08 { file_name: String }

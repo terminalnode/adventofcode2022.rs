@@ -1,4 +1,5 @@
 use itertools::Itertools;
+
 use crate::solution::Solution;
 
 pub struct Day12 { file_name: String }

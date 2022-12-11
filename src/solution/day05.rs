@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
+
 use itertools::Itertools;
 use regex::Regex;
+
 use crate::solution::Solution;
 
 pub struct Day05 { file_name: String }
